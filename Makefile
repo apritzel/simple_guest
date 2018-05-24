@@ -7,13 +7,15 @@ STANDALONE_ARM=-mstrict-align
 
 all: simple_guest.bin
 
+OBJS=start.o simple_guest.o
+
 %.o: %.c
 	${CROSS_COMPILE}gcc -Os ${STANDALONE} ${STANDALONE_ARM} -c -o $@ -Ttext=0 -DTARGET_${TARGET} $^
 
 %.o: %.S
 	${CROSS_COMPILE}as -o $@ $^
 
-simple_guest.bin: start.o simple_guest.o
+simple_guest.bin: ${OBJS}
 	${CROSS_COMPILE}ld -Ttext=0 -o simple_guest.elf $^
 	${CROSS_COMPILE}objcopy -O binary simple_guest.elf $@
 
