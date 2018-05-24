@@ -7,7 +7,7 @@ STANDALONE_ARM=-mstrict-align
 
 all: simple_guest.bin
 
-OBJS=start.o simple_guest.o
+OBJS=start.o simple_guest.o stdio.o
 
 %.o: %.c
 	${CROSS_COMPILE}gcc -Os ${STANDALONE} ${STANDALONE_ARM} -c -o $@ -Ttext=0 -DTARGET_${TARGET} $^
