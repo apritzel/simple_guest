@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 
+#ifdef TARGET_qemu
+
 #define UART_BASE_ADDR	0x09000000
 
 static int putchar(int c)
@@ -15,6 +17,8 @@ static void uart_init(void)
 
 	uart_base[0x30 / 4] |= 0x101;
 }
+
+#endif
 
 static int puts(const char *s)
 {

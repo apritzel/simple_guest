@@ -1,12 +1,14 @@
 SH=/bin/sh
 
+TARGET=qemu
+
 STANDALONE=-fpic -fno-common -fno-builtin -ffreestanding -nostdinc -fno-strict-aliasing -fno-stack-protector -fno-toplevel-reorder -Wstrict-prototypes -Wno-format-nonliteral -Wno-format-security -nostdlib -Iinclude
 STANDALONE_ARM=-mstrict-align
 
 all: simple_guest.bin
 
 %.o: %.c
-	${CROSS_COMPILE}gcc -Os ${STANDALONE} ${STANDALONE_ARM} -c -o $@ -Ttext=0 $^
+	${CROSS_COMPILE}gcc -Os ${STANDALONE} ${STANDALONE_ARM} -c -o $@ -Ttext=0 -DTARGET_${TARGET} $^
 
 %.o: %.S
 	${CROSS_COMPILE}as -o $@ $^
