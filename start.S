@@ -17,8 +17,9 @@ _start:
 	.word	0		// reserved
 
 start:
-	adr	x3, _start
+	adr	x3, stack
 	mov	sp, x3
+	adr	x3, _start
 	bl	cmain
 
 	mov	x0, #0x84000000	// PSCI base function identifier
@@ -31,3 +32,7 @@ start:
 1:	smc	#0
 loop:	wfi
 	b	loop
+
+.data
+.align 16
+stack: .space	1024
