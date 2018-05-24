@@ -66,12 +66,22 @@ static void puthexln(unsigned long val)
 	putchar('\n');
 }
 
-int _cmain(unsigned long dram_start, unsigned long uart_addr)
+int cmain(unsigned long fdt_addr, unsigned long par2, unsigned long par3,
+	  unsigned long load_addr)
 {
+	unsigned long el;
+
 	uart_init();
 
+	puts("Running in EL");
+	__asm__ volatile ("mrs %0, CurrentEL\n" : "=r" (el));
+	puthexln(el >> 2);
+
+	puts("FDT address: 0x");
+	puthexln(fdt_addr);
+
 	puts("load address: 0x");
-	puthexln(dram_start);
+	puthexln(load_addr);
 
 	return 0;
 }

@@ -17,15 +17,9 @@ _start:
 	.word	0		// reserved
 
 start:
-	mrs	x0, CurrentEL
-	mov	x1, #0x9000000
-	lsr	w0, w0, #2
-	add	w0, w0, #'0'
-	str	w0, [x1, #0]
-
-	adr	x0, #_start
-	mov	sp, x0
-	bl	_cmain
+	adr	x3, _start
+	mov	sp, x3
+	bl	cmain
 
 	mov	x0, #0x84000000	// PSCI base function identifier
 	orr	w0, w0, #0x8	// PSCI_SYSTEM_OFF
