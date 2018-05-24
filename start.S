@@ -20,7 +20,18 @@ start:
 	adr	x3, stack
 	mov	sp, x3
 	adr	x3, _start
-	bl	cmain
+
+clear_bss:
+	ldr	x4, =__bss_start__
+	add	x4, x4, x3
+	ldr	x5, =__bss_end__
+	add	x5, x5, x3
+1:	cmp	x4, x5
+	b.ge	gotoc
+	stp	xzr, xzr, [x4], 16
+	b	1b
+
+gotoc:	bl	cmain
 
 	mov	x0, #0x84000000	// PSCI base function identifier
 	orr	w0, w0, #0x8	// PSCI_SYSTEM_OFF
